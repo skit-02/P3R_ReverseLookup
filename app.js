@@ -1,16 +1,22 @@
-$("#addTodo").click(function () {
-  const inputTodo = $("input").val();
-  $("#todoList").append("<li><input type='checkbox'>" + inputTodo + "</li>");
+function calc(prsn, sozai) {
+  const ans = 1;
+  return ans;
+}
 
-  $("input").val("");
-});
+// ファイルの読み込み
+fetch(
+  "https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/blob/main/prsn.txt"
+)
+  .then((response) => response.text()) // テキストとして取得
+  .then((text) => console.log(text)) // コンソールに表示
+  .catch((error) => console.error("Error:", error));
 
-$(document).on("change", "input[type=checkbox]", function () {
-  if ($(this).is(":checked")) {
-    $(this).parent().css("text-decoration", "line-through");
-    $(this).parent().css("color", "#ccc");
-  } else {
-    $(this).parent().css("text-decoration", "none");
-    $(this).parent().css("color", "#000");
-  }
+$("#LookUp").click(function () {
+  const prsn = $("#prsn").val();
+  const sozai = $("#sozai").val();
+  // calcを呼び出して結果を入れる
+  const ans = calc(prsn, sozai);
+  $("#prsnList").append("<li>" + ans + "</li>");
+  $("#prsn").val("");
+  $("#sozai").val("");
 });

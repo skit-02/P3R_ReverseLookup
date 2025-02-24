@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo app</title>
+    <title>P3R ReverseLookup</title>
 </head>
 
 <body>
     <div>
-        <input type="text" id="input" />
-        <button id="addTodo">Todoを追加</button>
+        <input type="text" id="prsn" value="作りたいペルソナを入力">
+    </div>
+
+    <div>
+        <input type="text" id="sozai" value="素材で使いたいペルソナを入力">
     </div>
     <div>
-        <ul id="todoList"></ul>
+        <button id = "LookUp">検索する</button>
+    </div>
+    <div>
+        <ul id = "prsnList"></ul>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
         integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
