@@ -5,7 +5,7 @@ function calc(prsn, sozai) {
 
 // ファイルの読み込み
 fetch(
-  "https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/blob/main/prsn.txt"
+  "https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/main/prsn.txt"
 )
   .then((response) => response.text()) // テキストとして取得
   .then((text) => console.log(text)) // コンソールに表示
