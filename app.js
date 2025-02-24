@@ -5,10 +5,14 @@ function calc(prsn, sozai) {
 
 // ファイルの読み込み
 fetch(
-  "https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/main/prsn.txt"
+  "https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/main/arcn.txt"
 )
   .then((response) => response.text()) // テキストとして取得
-  .then((text) => console.log(text)) // コンソールに表示
+  .then((text) => {
+    const lines = text.split('\n');
+    const result = lines.map(line => line.split(' '));
+    console.log(result)
+  })
   .catch((error) => console.error("Error:", error));
 
 $("#LookUp").click(function () {
