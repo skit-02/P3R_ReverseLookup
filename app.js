@@ -35,7 +35,6 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     let min_lv = -1;
     if (rank !== 0) max_lv = Number(wantPrsn[rank - 1][1]);
     if (rank !== wantPrsn.length - 1) min_lv = Number(wantPrsn[rank + 1][1]);
-    console.log("baselv=" +base_lv + "sozailv="+sozai_lv + "max="+max_lv + "min = "+min_lv);
     //　この時下と上も知りたい．
     // 特殊合体は無視するのでそれのfilterもいる
     // 下がない場合は-1を保存上も同様
@@ -47,13 +46,13 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
       // テストしときたい
       let start = base_lv * 2 - sozai_lv;
       let end = max_lv * 2 - sozai_lv;
-      let search = usePrsn.filter((row1) => start <= row1[1] < end);
+      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
       ans.push(search);
     } else if (min_lv !== -1) {
       // (1.lv + x )/2= 3.lv(違う時はこれが min.lv ~ 3.1.lv-1)
       let start = min_lv * 2 - sozai_lv;
       let end = base_lv * 2 - sozai_lv;
-      let search = usePrsn.filter((row1) => start <= row1[1] < end);
+      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
       ans.push(search);
     }
   });
