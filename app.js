@@ -30,13 +30,14 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     // 作りたいprsnがそのアルカナの中で何番目なのかを調べる
     // 0:name, 1:level, 2:arcana, 3:tokusyu
     let rank = wantPrsn.findIndex((row1) => row1.includes(prsn));
+    console.log(rank)
     // [1]がアクセスできない感じ多分リストが変？
-    let base_lv = prsn[1];
-    let sozai_lv = sozai[1];
+    let base_lv = Number(prsn[1]);
+    let sozai_lv = Number(sozai[1]);
     let max_lv = -1;
     let min_lv = -1;
-    if (rank !== 0) max_lv = wantPrsn[rank - 1][1];
-    if (rank !== wantPrsn.length - 1) min_lv = wantPrsn[rank + 1][1];
+    if (rank !== 0) max_lv = Number(wantPrsn[rank - 1][1]);
+    if (rank !== wantPrsn.length - 1) min_lv = Number(wantPrsn[rank + 1][1]);
     //　この時下と上も知りたい．
     // 特殊合体は無視するのでそれのfilterもいる
     // 下がない場合は-1を保存上も同様
