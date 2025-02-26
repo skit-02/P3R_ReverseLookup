@@ -15,13 +15,11 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
   if (arcnList.length === 0) return errMassage;
   const ans = [];
   // 合体相手のアルカナを一つずつチェック
-  console.log(arcnList);
   arcnList.forEach((row) => {
     // 作りたいアルカナのペルソナ一覧を取得
     const wantPrsn = PRSNs.filter(
       (row2) => row2[2] == prsn[2] && row2[3] == -1
     );
-    console.log(wantPrsn);
     // 使いたい（求めたい）アルカナのペルソナ一覧を取得
     const usePrsn = PRSNs.filter((row2) => row2[2] == row);
     // もしsozai == ansArcn ならアルカナ合体時にレベルが下のものを作る
@@ -30,7 +28,6 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     // 作りたいprsnがそのアルカナの中で何番目なのかを調べる
     // 0:name, 1:level, 2:arcana, 3:tokusyu
     let rank = wantPrsn.findIndex((row1) => row1.includes(prsn[0]));
-    console.log(rank)
     // [1]がアクセスできない感じ多分リストが変？
     let base_lv = Number(prsn[1]);
     let sozai_lv = Number(sozai[1]);
@@ -38,6 +35,7 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     let min_lv = -1;
     if (rank !== 0) max_lv = Number(wantPrsn[rank - 1][1]);
     if (rank !== wantPrsn.length - 1) min_lv = Number(wantPrsn[rank + 1][1]);
+    console.log("baselv=" +base_lv + "sozailv="+sozai_lv + "max="+max_lv + "min = "+min_lv);
     //　この時下と上も知りたい．
     // 特殊合体は無視するのでそれのfilterもいる
     // 下がない場合は-1を保存上も同様
