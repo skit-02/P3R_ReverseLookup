@@ -17,7 +17,7 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
   // 合体相手のアルカナを一つずつチェック
   arcnList.forEach((row) => {
     // 作りたいアルカナのペルソナ一覧を取得
-    const wantPrsn = PRSNs.filter((row2) => row2[2] == prsn[2] && row[3] == -1);
+    const wantPrsn = PRSNs.filter((row2) => row2[2] == prsn[2] && row2[3] == -1);
     // 使いたい（求めたい）アルカナのペルソナ一覧を取得
     const usePrsn = PRSNs.filter((row2) => row2[2] == row);
     // もしsozai == ansArcn ならアルカナ合体時にレベルが下のものを作る
@@ -26,6 +26,7 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     // 作りたいprsnがそのアルカナの中で何番目なのかを調べる
     // 0:name, 1:level, 2:arcana, 3:tokusyu
     let rank = wantPrsn.findIndex((row1) => row1.includes(prsn));
+    // [1]がアクセスできない感じ多分リストが変？
     let base_lv = wantPrsn[rank][1];
     let sozai_lv = sozai[1];
     let max_lv = -1;
