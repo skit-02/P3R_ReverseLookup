@@ -46,13 +46,17 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
       // テストしときたい
       let start = base_lv * 2 - sozai_lv;
       let end = max_lv * 2 - sozai_lv;
-      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
+      let search = usePrsn
+        .filter((row1) => start <= row1[1] && row1[1] < end)
+        .map((row1) => row1[0]);
       ans.push(search);
     } else if (min_lv !== -1) {
       // (1.lv + x )/2= 3.lv(違う時はこれが min.lv ~ 3.1.lv-1)
       let start = min_lv * 2 - sozai_lv;
       let end = base_lv * 2 - sozai_lv;
-      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
+      let search = usePrsn
+        .filter((row1) => start <= row1[1] && row1[1] < end)
+        .map((row1) => row1[0]);
       ans.push(search);
     }
   });
@@ -78,7 +82,19 @@ Promise.all([
   .then(([arcnText, prsnText]) => {
     const ARCNs = arcnText.split("\n").map((line) => line.split(" "));
     const PRSNs = prsnText.split("\n").map((line) => line.split(" "));
+    const vocabulary = PRSNs.map((row) => row[0]).sort(); // PRSNs の1列目（名前）を取得
+    const prsnList = document.getElementById("prsnList");
+    const sozaiList = document.getElementById("sozaiList");
 
+    vocabulary.forEach((name) => {
+      const option1 = document.createElement("option");
+      option1.value = name;
+      prsnList.appendChild(option1);
+
+      const option2 = document.createElement("option");
+      option2.value = name;
+      sozaiList.appendChild(option2);
+    });
     $("#LookUp").click(function () {
       let prsn = $("#prsn").val();
       let sozai = $("#sozai").val();
@@ -86,13 +102,15 @@ Promise.all([
       sozai = getPrsn(sozai, PRSNs);
 
       if (prsn[3] == 0) {
-        console.log(prsn[0] + "は特殊合体です");
+        $("#resultList").append("<li>" + prsn[0] + "は特殊合体です" + "</li>");
+        $("#prsn").val("");
+        $("#sozai").val("");
         return;
       }
       // $elseにして元の入力をからにするやつはどっちの場合でも実行できるようにしたい
 
       const ans = calc(prsn, sozai, ARCNs, PRSNs);
-      $("#prsnList").append("<li>" + ans + "</li>");
+      $("#resultList").append("<li>" + ans + "</li>");
       $("#prsn").val("");
       $("#sozai").val("");
     });
