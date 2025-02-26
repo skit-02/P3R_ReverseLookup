@@ -29,7 +29,7 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
     // $レベルが低すぎて合体不可になる時の例外処理
     // 作りたいprsnがそのアルカナの中で何番目なのかを調べる
     // 0:name, 1:level, 2:arcana, 3:tokusyu
-    let rank = wantPrsn.findIndex((row1) => row1.includes(prsn));
+    let rank = wantPrsn.findIndex((row1) => row1.includes(prsn[0]));
     console.log(rank)
     // [1]がアクセスできない感じ多分リストが変？
     let base_lv = Number(prsn[1]);
