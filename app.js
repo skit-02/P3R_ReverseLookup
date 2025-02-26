@@ -46,10 +46,10 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
       // テストしときたい
       let start = base_lv * 2 - sozai_lv;
       let end = max_lv * 2 - sozai_lv;
-      let search = usePrsn
-        .filter((row1) => start <= row1[1] && row1[1] < end)
-        .map((row1) => row1[0]);
-      ans.push(search);
+      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
+      if (search.length > 0) {
+        ans.push(search);
+      }
     } else if (min_lv !== -1) {
       // (1.lv + x )/2= 3.lv(違う時はこれが min.lv ~ 3.1.lv-1)
       let start = min_lv * 2 - sozai_lv;
@@ -57,7 +57,9 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
       let search = usePrsn
         .filter((row1) => start <= row1[1] && row1[1] < end)
         .map((row1) => row1[0]);
-      ans.push(search);
+      if (search.length > 0) {
+        ans.push(search);
+      }
     }
   });
   if (ans.length == 0) return errMassage;
@@ -109,8 +111,8 @@ Promise.all([
       }
       // $elseにして元の入力をからにするやつはどっちの場合でも実行できるようにしたい
 
-      const ans = calc(prsn, sozai, ARCNs, PRSNs);
-      $("#resultList").append("<li>" + ans + "</li>");
+      const kekka = calc(prsn, sozai, ARCNs, PRSNs);
+      $("#resultList").append("<li>" + kekka + "</li>");
       $("#prsn").val("");
       $("#sozai").val("");
     });
