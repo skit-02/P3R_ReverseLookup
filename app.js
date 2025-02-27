@@ -1,11 +1,36 @@
-// 素材のペルソナがからの場合は全組み合わせを表示するようにでもするか
-// 作成に必要なペルソナとレベルの組み合わせを計算する
-// PRSNsと照らし合わせて合体相手の(名前とアルカナ)を返す
+//定数の宣言
+const tarots = [
+  "愚者",
+  "魔術師",
+  "女教皇",
+  "女帝",
+  "皇帝",
+  "法王",
+  "恋愛",
+  "戦車",
+  "正義",
+  "隠者",
+  "運命",
+  "剛毅",
+  "刑死者",
+  "死神",
+  "節制",
+  "悪魔",
+  "塔",
+  "星",
+  "月",
+  "太陽",
+  "審判",
+  "永劫",
+];
 
+// 合体逆引きの計算用の関数
+// sozai * ? = prsn
+// 0:name, 1:level, 2:arcana, 3:tokusyu
 function calc(prsn, sozai, ARCNs, PRSNs) {
-  // prsnもsozaiも一次元配列(getPrsnのやつ)
-  // ARCNsとPRSNsは二次元配列
+  // エラーメッセージ
   const errMassage = sozai[0] + "では" + prsn[0] + "は作れません";
+  // ？のアルカナを求める(arcnListに格納)
   const filterarcn = ARCNs.filter((row) => row[2] == prsn[2]);
   let arcnList = [];
   filterarcn.forEach((row) => {
@@ -14,59 +39,44 @@ function calc(prsn, sozai, ARCNs, PRSNs) {
   });
   if (arcnList.length === 0) return errMassage;
   const ans = [];
-  // 合体相手のアルカナを一つずつチェック
+  // ？のアルカナごとに計算
   arcnList.forEach((row) => {
-    // 作りたいアルカナのペルソナ一覧を取得
+    // prsnのアルカナのペルソナ一覧を取得
     const wantPrsn = PRSNs.filter(
       (row2) => row2[2] == prsn[2] && row2[3] == -1
     );
-    // 使いたい（求めたい）アルカナのペルソナ一覧を取得
+    // ？のアルカナのペルソナ一覧を取得
     const usePrsn = PRSNs.filter((row2) => row2[2] == row);
-    // もしsozai == ansArcn ならアルカナ合体時にレベルが下のものを作る
-    // ! ひとまずここだけできたら終わり！！！
-    // $レベルが低すぎて合体不可になる時の例外処理
     // 作りたいprsnがそのアルカナの中で何番目なのかを調べる
-    // 0:name, 1:level, 2:arcana, 3:tokusyu
     let rank = wantPrsn.findIndex((row1) => row1.includes(prsn[0]));
-    // [1]がアクセスできない感じ多分リストが変？
+    // 変数の宣言
     let base_lv = Number(prsn[1]);
     let sozai_lv = Number(sozai[1]);
     let max_lv = -1;
     let min_lv = -1;
     if (rank !== 0) max_lv = Number(wantPrsn[rank - 1][1]);
     if (rank !== wantPrsn.length - 1) min_lv = Number(wantPrsn[rank + 1][1]);
-    //　この時下と上も知りたい．
-    // 特殊合体は無視するのでそれのfilterもいる
-    // 下がない場合は-1を保存上も同様
-    // その状態で同アルカナ合体の時の条件分岐(-1でも大丈夫な場合がある)
-    // minとmaxのレベルがわかった状態で特殊合体も加味して適合するペルソナをansにpushする
-    if (row == sozai[2] && max_lv !== -1) {
-      // (1.lv + x )/2= 3.lv(同じ時はこれが 3.lv ~ max.lv-1)
-      // ここ多分一個下って計算だから求めたいやつと同レベルでも問題ないと思うけど
-      // テストしときたい
-      let start = base_lv * 2 - sozai_lv;
-      let end = max_lv * 2 - sozai_lv;
-      let search = usePrsn.filter((row1) => start <= row1[1] && row1[1] < end);
-      if (search.length > 0) {
-        ans.push(search);
-      }
-    } else if (min_lv !== -1) {
-      // (1.lv + x )/2= 3.lv(違う時はこれが min.lv ~ 3.1.lv-1)
-      let start = min_lv * 2 - sozai_lv;
-      let end = base_lv * 2 - sozai_lv;
+
+    // 条件分岐
+    if ((row == sozai[2] && max_lv !== -1) || min_lv !== -1) {
+      let start = (row == sozai[2] ? base_lv : min_lv) * 2 - sozai_lv;
+      let end = (row == sozai[2] ? max_lv : base_lv) * 2 - sozai_lv;
+
       let search = usePrsn
         .filter((row1) => start <= row1[1] && row1[1] < end)
-        .map((row1) => row1[0]);
+        .map((row1) => [row1[2], row1[1], row1[0]]);
+
       if (search.length > 0) {
-        ans.push(search);
+        ans.push(...search);
       }
     }
   });
+
   if (ans.length == 0) return errMassage;
   return ans;
-  // それ以外は足し合わせて上のペルソナを作る(これはアルカナが複数ある場合があるのでansArcn内のでループする)
 }
-// ペルソナのアルカナを返す
+
+// ペルソナのアルカナを返す関数
 function getPrsn(prsn, PRSNs) {
   // 入力したペルソナの["名前", "レベル", "アルカナ番号", "特殊合体の有無(0,-1)"]を返す
   return PRSNs.find((row) => row.includes(prsn));
@@ -97,24 +107,39 @@ Promise.all([
       option2.value = name;
       sozaiList.appendChild(option2);
     });
+    // 検索ボタンを押したときの処理
     $("#LookUp").click(function () {
       let prsn = $("#prsn").val();
       let sozai = $("#sozai").val();
       prsn = getPrsn(prsn, PRSNs);
       sozai = getPrsn(sozai, PRSNs);
+      // 結果の表示
+      const result =
+        prsn[3] == 0
+          ? `${prsn[0]}は特殊合体です`
+          : calc(prsn, sozai, ARCNs, PRSNs);
 
-      if (prsn[3] == 0) {
-        $("#resultList").append("<li>" + prsn[0] + "は特殊合体です" + "</li>");
-        $("#prsn").val("");
-        $("#sozai").val("");
-        return;
+      if (typeof result === "string") {
+        // 特殊合体の場合はそのままリストに追加
+        $("#resultListUL").append(`<li>${result}</li>`);
+      } else {
+        // 合体式を表示
+        $("#fusionFormula").html(`${sozai[0]} × ？ = ${prsn[0]}`);
+        // テーブルのデータをクリア
+        $("#resultListTable").empty();
+
+        // テーブルに結果を追加
+        result.forEach((res) => {
+          $("#resultListTable").append(`
+    <tr>
+        <td>${tarots[Number(res[0])]}</td><td>${res[1]}</td><td>${res[2]}</td>
+    </tr>
+    `);
+        });
       }
-      // $elseにして元の入力をからにするやつはどっちの場合でも実行できるようにしたい
 
-      const kekka = calc(prsn, sozai, ARCNs, PRSNs);
-      $("#resultList").append("<li>" + kekka + "</li>");
-      $("#prsn").val("");
-      $("#sozai").val("");
+      // 入力欄をリセット
+      $("#prsn, #sozai").val("");
     });
   })
   .catch((error) => console.error("Error:", error));
