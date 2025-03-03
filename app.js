@@ -113,6 +113,16 @@ Promise.all([
       let sozai = $("#sozai").val();
       prsn = getPrsn(prsn, PRSNs);
       sozai = getPrsn(sozai, PRSNs);
+      // 入力された値がprsnListにない場合にエラーを表示
+      if (!prsn || !sozai) {
+        alert(
+          "入力されたペルソナは存在しません。正しい名前を入力してください。"
+        );
+        // 入力欄をリセット
+        $("#prsn, #sozai").val("");
+
+        return; // 処理を中断
+      }
       // 結果の表示
       const result =
         prsn[3] == 0
@@ -138,7 +148,6 @@ Promise.all([
         });
       }
 
-      
       // 入力欄をリセット
       $("#prsn, #sozai").val("");
     });
