@@ -1,3 +1,163 @@
+// タロットの名前のリスト
+const tarots = [
+	"愚者",
+	"魔術師",
+	"女教皇",
+	"女帝",
+	"皇帝",
+	"法王",
+	"恋愛",
+	"戦車",
+	"正義",
+	"隠者",
+	"運命",
+	"剛毅",
+	"刑死者",
+	"死神",
+	"節制",
+	"悪魔",
+	"塔",
+	"星",
+	"月",
+	"太陽",
+	"審判",
+	"永劫",
+];
+
+// データのパース関数
+const parsePrsn = (line) => {
+	const [name, level, arcana, tokusyu] = line.split(" ");
+	return {
+		name, // 本当はname: name, だけど省略している
+		level: Number(level),
+		arcana: Number(arcana),
+		tokusyu: Number(tokusyu),
+	};
+};
+
+const parseArcn = (line) => {
+	const [a, b, result] = line.split(" ");
+	return {
+		a: Number(a),
+		b: Number(b),
+		result: Number(result),
+	};
+};
+
+// 指定した名前のペルソナを返す関数
+function getPrsn(name, PRSNs) {
+	return PRSNs.find((prsn) => prsn.name === name);
+}
+
+// 合体逆引き計算関数
+function calc(prsn, sozai, ARCNs, PRSNs) {
+	const errMassage = `${sozai.name}では${prsn.name}は作れません`;
+
+	const arcnList = ARCNs.filter((row) => row.result === prsn.arcana).flatMap(
+		(row) => {
+			if (row.a === sozai.arcana) return [row.b];
+			if (row.b === sozai.arcana) return [row.a];
+			return [];
+		}
+	);
+
+	if (arcnList.length === 0) return errMassage;
+
+	const ans = [];
+
+	arcnList.forEach((arcana) => {
+		const wantPrsn = PRSNs.filter(
+			(p) => p.arcana === prsn.arcana && p.tokusyu === -1
+		);
+		const usePrsn = PRSNs.filter((p) => p.arcana === arcana);
+		const rank = wantPrsn.findIndex((p) => p.name === prsn.name);
+
+		let base_lv = prsn.level;
+		let sozai_lv = sozai.level;
+		let max_lv = rank !== 0 ? wantPrsn[rank - 1].level : -1;
+		let min_lv = rank !== wantPrsn.length - 1 ? wantPrsn[rank + 1].level : -1;
+
+		if ((arcana === sozai.arcana && max_lv !== -1) || min_lv !== -1) {
+			let start = (arcana === sozai.arcana ? base_lv : min_lv) * 2 - sozai_lv;
+			let end = (arcana === sozai.arcana ? max_lv : base_lv) * 2 - sozai_lv;
+
+			const search = usePrsn
+				.filter((p) => start <= p.level && p.level < end)
+				.map((p) => [p.arcana, p.level, p.name]);
+
+			if (search.length > 0) ans.push(...search);
+		}
+	});
+
+	return ans.length === 0 ? errMassage : ans;
+}
+
+// ファイルの読み込みと初期化
+Promise.all([
+	fetch(
+		"https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/main/arcn.txt"
+	).then((res) => res.text()),
+	fetch(
+		"https://raw.githubusercontent.com/skit-02/P3R_ReverseLookup/main/prsn.txt"
+	).then((res) => res.text()),
+])
+	.then(([arcnText, prsnText]) => {
+		// 読み込んだファイルを分割代入
+		// trim()で前後の空白を削除，split()で改行で分割(=行ごとに分割)，mapで各行にparseを適用
+		const ARCNs = arcnText.trim().split("\n").map(parseArcn);
+		const PRSNs = prsnText.trim().split("\n").map(parsePrsn);
+
+		// ペルソナの名前だけを取得してソート
+		const vocabulary = PRSNs.map((p) => p.name).sort();
+
+		// htmlの表示するための候補一覧の要素を取得
+		const nameList = document.getElementById("nameList");
+
+		// ペルソナの名前をoption要素として追加
+		vocabulary.forEach((name) => {
+			const option = document.createElement("option");
+			option.value = name;
+			nameList.appendChild(option);
+		});
+
+		// 入力されたペルソナの名前を取得
+		$("#LookUp").click(function () {
+			let prsn = getPrsn($("#prsn").val(), PRSNs);
+			let sozai = getPrsn($("#sozai").val(), PRSNs);
+
+			if (!prsn || !sozai) {
+				alert(
+					"入力されたペルソナは存在しません。正しい名前を入力してください。"
+				);
+				$("#prsn, #sozai").val("");
+				return;
+			}
+
+			const result =
+				prsn.tokusyu === 0
+					? `${prsn.name}は特殊合体です`
+					: calc(prsn, sozai, ARCNs, PRSNs);
+
+			if (typeof result === "string") {
+				$("#resultListUL").append(`<li>${result}</li>`);
+			} else {
+				$("#fusionFormula").html(`${sozai.name} × ？ = ${prsn.name}`);
+				$("#resultListTable").empty();
+
+				result.forEach((res) => {
+					$("#resultListTable").append(`
+						<tr><td>${tarots[res[0]]}</td><td>${res[1]}</td><td>${res[2]}</td></tr>
+					`);
+				});
+			}
+
+			$("#prsn, #sozai").val("");
+		});
+	})
+	.catch((error) => console.error("Error:", error));
+
+---- ここからindex.html ---
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -30,6 +190,7 @@
     </nav>
     <div class="container text-center">
         <h1 class="mb-4">ペルソナ3リロード 合体逆引き</h1>
+        <a href="list.html">全ペルソナ一覧を見る</a>
         <!-- 入力フォーム -->
         <div class="mb-3">
             <input type="text" id="prsn" list="nameList" class="form-control" placeholder="作りたいペルソナを入力">
@@ -39,10 +200,6 @@
             <input type="text" id="sozai" list="nameList" class="form-control" placeholder="素材で使いたいペルソナを入力">
             <datalist id="nameList"></datalist>
         </div>
-        <div class="mb-3">
-            <a href="list.html">素材を指定しない場合はこちら</a>
-        </div>
-
         <button id="LookUp" class="btn btn-primary w-100">検索する</button>
 
         <!-- 結果表示エリア -->
@@ -72,14 +229,13 @@
                 このサイトは「ペルソナ3リロード」のペルソナの2身合体の逆引きを行うツールです。
                 作りたいペルソナと素材を入力すると、その合体に必要なペルソナを表示します。
                 ※特殊合体・DLCペルソナは除外。
-                ※同じアルカナ同士の合体は参考にしないでください
             </p>
 
         </div>
         <div class="description" id="about">
             <h5>このツールの詳細について</h5>
             ゲームをプレイしていると，特定のペルソナが必要になる場面があります．しかしゲーム内ではそのペルソナを作るための方法は示されていません．それだけでなく，現在（2025/05/04）でもペルソナ3リロードの攻略サイトでは，狙ったペルソナを作るための方法が正しく示されていないものが多いです．仕組み自体はシンプルですが，ペルソナの数が多く，合体の組み合わせも多いため，正しい情報を得るのが難しいです．そのような情報を正しく示すためにこのツールを作成しました．
-            以下にプログラムの概要を示します．仕組みが理解できればこのツールを使わなくても合体の逆引きができるようになると思います．（更新途中）
+            以下にプログラムの概要を示します．仕組みが理解できればこのツールを使わなくても合体の逆引きができるようになると思います．
         </div>
 
         <!-- コメント欄 -->

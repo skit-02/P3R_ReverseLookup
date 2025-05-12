@@ -1,0 +1,96 @@
+body {
+	background-color: #0d0d0d;
+	color: #e0e0e0;
+	font-family: "Orbitron", "Noto Sans JP", sans-serif;
+}
+
+.container {
+	max-width: 700px;
+	margin-top: 60px;
+	background-color: #121212;
+	padding: 25px;
+	border-radius: 12px;
+	box-shadow: 0 0 25px rgba(0, 102, 204, 0.6);
+	border: 1px solid #007acc;
+}
+
+input,
+textarea {
+	background-color: #1a1a1a;
+	color: #ffffff;
+	border: 1px solid #007acc;
+	border-radius: 6px;
+	padding: 12px;
+	font-weight: bold;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: #777;
+}
+
+button {
+	background-color: #007acc;
+	border: none;
+	color: white;
+	font-weight: bold;
+	letter-spacing: 1px;
+	box-shadow: 0 0 10px rgba(0, 122, 255, 0.7);
+	transition: 0.3s;
+}
+
+button:hover {
+	background-color: #005fa3;
+	box-shadow: 0 0 15px rgba(0, 122, 255, 1);
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+li {
+	background-color: #222;
+	padding: 12px;
+	margin: 6px 0;
+	border-radius: 6px;
+	border-left: 4px solid #007acc;
+}
+a {
+	color: #e0e0e0;
+}
+
+.description,
+.comment-box {
+	color: #e0e0e0;
+	background-color: #1c1c1c;
+	padding: 18px;
+	margin-top: 30px;
+	border-radius: 10px;
+	border: 1px solid #007acc;
+}
+
+#fusionFormula {
+	font-size: 1.1rem;
+	color: #00bfff;
+	text-shadow: 0 0 5px #00bfff;
+	border: 1px solid #007acc;
+	border-radius: 8px;
+}
+
+table {
+	background-color: #111;
+	color: #fff;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+th {
+	background-color: #007acc;
+	color: #fff;
+}
+
+td {
+	background-color: #1a1a1a;
+	color: #ccc;
+}
