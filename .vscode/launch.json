@@ -1,0 +1,10 @@
+{
+	"configurations": [
+		{
+			"type": "chrome",
+			"name": "file:///Users/skit/Library/CloudStorage/OneDrive-TokyoUniversityofAgricultureandTechnology/kyoyu/PRSN3/P3R_ReverseLookup/index.html",
+			"request": "launch",
+			"url": "file:///Users/skit/Library/CloudStorage/OneDrive-TokyoUniversityofAgricultureandTechnology/kyoyu/PRSN3/P3R_ReverseLookup/index.html"
+		}
+	]
+}

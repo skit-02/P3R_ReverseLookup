@@ -43,11 +43,9 @@ def calc_combination(data):
             y_list = [entry for entry in level if entry not in exclude_levels]
             if val < y_list[-1]:
                 print(f"合体不可能: by {data[i][0]}, {data[j][0]}")
-            # break多すぎるから関数を分けてループさせてここはreturnにしてもいいかもしれない
             elif val >= y_list[0]:
                 print(f"{x_list[0][0]}: by {data[i][0]}, {data[j][0]}")
             else:
-
                 # print(f"{data[i][1] + data[j][1]} -> val: {val}")
                 for k in range(len(y_list) - 1):
                     if y_list[k] >= val >= y_list[k + 1]:
