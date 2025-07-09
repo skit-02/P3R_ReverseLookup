@@ -232,7 +232,7 @@ Promise.all([
 					? `${prsn.name}は特殊合体です`
 					: calc(prsn, sozai, ARCNs, PRSNs);
 			//test
-			console.log(result);
+			//console.log(result);
 
 			if (typeof result === "string") {
 				$("#resultListUL").append(`<li>${result}</li>`);
@@ -281,7 +281,7 @@ Promise.all([
       <tr>
         <th>アルカナ</th>
         <th>初期レベル</th>
-        <th style="border-right: 2px solid black;">名前</th>
+        <th class="table-divider">名前</th>
         <th>アルカナ</th>
         <th>初期レベル</th>
         <th>名前</th>
@@ -296,7 +296,7 @@ Promise.all([
           <tr>
             <td>${tarots[sozai.arcana] ?? ""}</td>
             <td>${sozai.level ?? ""}</td>
-            <td style="border-right: 2px solid black;">${sozai.name ?? ""}</td>
+            <td class="table-divider">${sozai.name ?? ""}</td>
             <td>${tarots[p.arcana] ?? ""}</td>
             <td>${p.level ?? ""}</td>
             <td>${p.name ?? ""}</td>

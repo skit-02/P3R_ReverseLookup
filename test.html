@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>【P3R】全合体パターン検索 | ペルソナ3リロード 合体逆引き</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="このサイトは「ペルソナ3リロード」のペルソナの2身合体の逆引きを行うツールです。特定のペルソナを作成するための全てのパターンを確認できます。">
+    <meta name="keywords" content="ペルソナ3リロード,合体,逆引き,全ペルソナ表示">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --p3r-dark-blue: #0a182d;
+            --p3r-blue: #004f8b;
+            --p3r-light-blue: #00c8ff;
+            --p3r-text-light: #e8f7ff;
+            --p3r-text-dark: #333;
+            --p3r-accent-yellow: #ffc107;
+        }
+
+        body {
+            background: linear-gradient(135deg, #00122e, #032a5a);
+            background-attachment: fixed;
+            color: var(--p3r-text-light);
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
+        }
+
+        /* ナビゲーションバーのスタイル */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            border-bottom: 2px solid var(--p3r-light-blue);
+            backdrop-filter: blur(5px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px var(--p3r-light-blue);
+        }
+
+        .nav-link {
+            color: var(--p3r-text-light) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--p3r-light-blue) !important;
+            text-shadow: 0 0 5px var(--p3r-light-blue);
+        }
+
+        /* メインコンテンツエリア */
+        .main-container {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            background-color: rgba(0, 20, 40, 0.7);
+            border: 1px solid var(--p3r-blue);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.2);
+        }
+
+        h1,
+        h5 {
+            font-weight: 700;
+            color: var(--p3r-text-light);
+            text-shadow: 0 0 8px var(--p3r-light-blue);
+        }
+
+        h1 {
+            margin-bottom: 2rem !important;
+        }
+
+        h5 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        /* フォームのスタイル */
+        .form-control {
+            background-color: rgba(10, 24, 45, 0.8);
+            border: 1px solid var(--p3r-blue);
+            color: var(--p3r-text-light);
+            border-radius: 0;
+            border-left: 5px solid var(--p3r-light-blue);
+        }
+
+        .form-control::placeholder {
+            color: #aaa;
+        }
+
+        .form-control:focus {
+            background-color: rgba(10, 24, 45, 1);
+            border-color: var(--p3r-light-blue);
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+            color: var(--p3r-text-light);
+        }
+
+        /* ボタンのスタイル */
+        .btn-p3r {
+            font-weight: bold;
+            color: var(--p3r-dark-blue);
+            background: var(--p3r-light-blue);
+            border: none;
+            border-radius: 2px;
+            padding: 10px 20px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%, 0 75%);
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+        }
+
+        .btn-p3r:hover {
+            background-color: #fff;
+            box-shadow: 0 0 15px var(--p3r-light-blue);
+            transform: translateY(-2px);
+        }
+
+        /* 結果表示エリア */
+        #resultArea {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--p3r-blue);
+            text-align: left;
+        }
+
+        #resultList p {
+            background-color: rgba(0, 79, 139, 0.2);
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 2px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        /* フッター */
+        .footer-note {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--p3r-blue);
+            font-size: 0.9rem;
+            text-align: center;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-sm">
+        <div class="container justify-content-between">
+            <a class="navbar-brand" href="index.html">P3R FUSION CALCULATOR</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">逆引き検索</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="list.html">全パターン検索</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <h1 class="text-center">全合体パターン検索</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <p class="text-center mb-4" style="font-family: 'Noto Sans JP', sans-serif;">
+                    調べたいペルソナ名を入力すると、そのペルソナを作成できる全ての2身合体の組み合わせを表示します。
+                </p>
+                <div class="mb-3">
+                    <input type="text" id="targetPrsnInput" list="nameList" class="form-control"
+                        placeholder="調べたいペルソナ名を入力">
+                    <datalist id="nameList"></datalist>
+                </div>
+                <button class="btn-p3r mt-2" id="showPatternsBtn">全通りを表示</button>
+            </div>
+        </div>
+
+
+        <div id="resultArea" class="mt-4">
+            <h5>可能な合体結果一覧：</h5>
+            <div id="resultList">
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <p>不具合などがあれば<a href="https://github.com/skit-02/P3R_ReverseLookup" target="_blank"
+                    style="color: var(--p3r-accent-yellow);">GitHub</a>までご連絡ください。</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

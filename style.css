@@ -1,100 +1,237 @@
+/* style.css */
+
+/* --- グローバル変数と基本スタイル --- */
+:root {
+	--p3r-dark-blue: #0a182d;
+	--p3r-blue: #004f8b;
+	--p3r-light-blue: #00c8ff;
+	--p3r-text-light: #e8f7ff;
+	--p3r-text-dark: #333;
+	--p3r-accent-yellow: #ffc107;
+}
+
 body {
-	background-color: #0d0d0d;
-	color: #e0e0e0;
+	/* P3Rの背景のようなグラデーションを設定 */
+	background: linear-gradient(135deg, #00122e, #032a5a);
+	background-attachment: fixed;
+	color: var(--p3r-text-light);
+	/* メインのフォントをOrbitronに、日本語はNoto Sans JPに */
 	font-family: "Orbitron", "Noto Sans JP", sans-serif;
 }
 
-.container {
-	max-width: 700px;
-	margin-top: 60px;
-	background-color: #121212;
-	padding: 25px;
-	border-radius: 12px;
-	box-shadow: 0 0 25px rgba(0, 102, 204, 0.6);
-	border: 1px solid #007acc;
+/* --- ナビゲーションバー --- */
+.navbar {
+	background-color: rgba(0, 0, 0, 0.5) !important;
+	border-bottom: 2px solid var(--p3r-light-blue);
+	backdrop-filter: blur(5px); /* 背景をぼかす効果 */
 }
 
-input,
-textarea {
-	background-color: #1a1a1a;
-	color: #ffffff;
-	border: 1px solid #007acc;
-	border-radius: 6px;
-	padding: 12px;
+.navbar-brand {
+	font-weight: 700;
+	font-size: 1.5rem;
+	text-shadow: 0 0 5px var(--p3r-light-blue);
+}
+
+.nav-link {
+	color: var(--p3r-text-light) !important;
+	transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+	color: var(--p3r-light-blue) !important;
+	text-shadow: 0 0 5px var(--p3r-light-blue);
+}
+
+.btn-outline-info {
+	border-color: var(--p3r-light-blue);
+	color: var(--p3r-light-blue);
+	transition: all 0.3s ease;
+}
+
+.btn-outline-info:hover {
+	background-color: var(--p3r-light-blue);
+	color: var(--p3r-dark-blue);
+	box-shadow: 0 0 10px var(--p3r-light-blue);
+}
+
+/* --- メインコンテンツ --- */
+.main-container {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	background-color: rgba(0, 20, 40, 0.7);
+	border: 1px solid var(--p3r-blue);
+	border-radius: 8px;
+	padding: 2rem;
+	box-shadow: 0 0 25px rgba(0, 200, 255, 0.2);
+}
+
+h1,
+h5 {
+	font-weight: 700;
+	color: var(--p3r-text-light);
+	text-shadow: 0 0 8px var(--p3r-light-blue);
+}
+
+h1 {
+	margin-bottom: 2rem !important;
+}
+
+h5 {
+	margin-bottom: 1.5rem !important;
+}
+
+/* --- フォームとボタン --- */
+.form-control {
+	background-color: rgba(10, 24, 45, 0.8);
+	border: 1px solid var(--p3r-blue);
+	color: var(--p3r-text-light);
+	border-radius: 0; /* 角をなくす */
+	border-left: 5px solid var(--p3r-light-blue); /* 左のボーダーをアクセントに */
+}
+
+.form-control::placeholder {
+	color: #aaa;
+}
+
+.form-control:focus {
+	background-color: rgba(10, 24, 45, 1);
+	border-color: var(--p3r-light-blue);
+	box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+	color: var(--p3r-text-light);
+}
+
+/* 共通ボタンのスタイル */
+.btn-p3r {
 	font-weight: bold;
-}
-
-input::placeholder,
-textarea::placeholder {
-	color: #777;
-}
-
-button {
-	background-color: #007acc;
+	color: var(--p3r-dark-blue);
+	background: var(--p3r-light-blue);
 	border: none;
-	color: white;
-	font-weight: bold;
-	letter-spacing: 1px;
-	box-shadow: 0 0 10px rgba(0, 122, 255, 0.7);
-	transition: 0.3s;
+	border-radius: 2px;
+	padding: 10px 20px;
+	width: 100%;
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% 100%,
+		8% 100%,
+		0 75%
+	); /* P3R風の斜めカット */
+	transition: all 0.3s ease;
+	text-align: center;
 }
 
-button:hover {
-	background-color: #005fa3;
-	box-shadow: 0 0 15px rgba(0, 122, 255, 1);
+.btn-p3r:hover {
+	background-color: #fff;
+	box-shadow: 0 0 15px var(--p3r-light-blue);
+	transform: translateY(-2px);
 }
 
-ul {
-	list-style-type: none;
-	padding: 0;
+/* --- リンク --- */
+.link-subtle {
+	color: var(--p3r-light-blue);
+	text-decoration: none;
+	display: inline-block;
+	margin-top: 0.5rem;
 }
 
-li {
-	background-color: #222;
-	padding: 12px;
-	margin: 6px 0;
-	border-radius: 6px;
-	border-left: 4px solid #007acc;
-}
-a {
-	color: #e0e0e0;
+.link-subtle:hover {
+	color: #fff;
+	text-decoration: underline;
 }
 
-.description,
-.comment-box {
-	color: #e0e0e0;
-	background-color: #1c1c1c;
-	padding: 18px;
-	margin-top: 30px;
-	border-radius: 10px;
-	border: 1px solid #007acc;
-}
-
+/* --- 結果表示エリア --- */
 #fusionFormula {
-	font-size: 1.1rem;
-	color: #00bfff;
-	text-shadow: 0 0 5px #00bfff;
-	border: 1px solid #007acc;
-	border-radius: 8px;
+	background-color: rgba(0, 0, 0, 0.7);
+	border: 1px solid var(--p3r-light-blue);
+	padding: 1rem;
+	font-size: 1.2rem;
+	margin-top: 2rem !important;
+}
+/* 結果テーブル */
+.table {
+	margin-top: 1.5rem !important;
+	width: 100%;
+	border-collapse: collapse; /* ボーダーを一体化 */
+	border: 1px solid var(--p3r-blue);
 }
 
-table {
-	background-color: #111;
+.table thead th {
+	background-color: var(--p3r-blue);
+	color: var(--p3r-text-light);
+	text-transform: uppercase;
+	border-bottom: 2px solid var(--p3r-light-blue);
+	padding: 0.75rem;
+	text-align: left;
+}
+
+/* テーブルのデータ行のスタイルを統一 */
+.table tbody tr {
+	color: var(--p3r-text-light); /* 文字色を明るい色に固定 */
+	background-color: rgba(10, 24, 45, 0.7); /* 背景を濃い青に固定 */
+	border-bottom: 1px solid var(--p3r-blue);
+}
+
+/* ストライプ（縞模様）の背景色を少し変える */
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+	background-color: rgb(183, 211, 216);
+}
+
+/* 最後の行のボーダーを削除 */
+.table tbody tr:last-child {
+	border-bottom: none;
+}
+
+/* ホバー時のスタイル */
+.table tbody tr:hover {
+	background-color: rgba(0, 200, 255, 0.2);
 	color: #fff;
-	border-radius: 8px;
-	overflow: hidden;
 }
 
-th {
-	background-color: #007acc;
+.table td {
+	padding: 0.75rem;
+}
+/* テーブルの区切り線用のスタイル */
+.table-divider {
+	border-right: 2px solid var(--p3r-blue);
+}
+/* list.html用の結果表示エリア */
+#resultArea {
+	margin-top: 3rem;
+	padding: 1.5rem;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-left: 3px solid var(--p3r-blue);
+	text-align: left;
+}
+
+/* --- 説明とフッター --- */
+.description {
+	margin-top: 3rem;
+	padding: 1.5rem;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-left: 3px solid var(--p3r-blue);
+	text-align: left;
+}
+
+.description p,
+.comment-box a {
+	font-family: "Noto Sans JP", sans-serif;
+	font-weight: 400;
+}
+
+.comment-box {
+	margin-top: 2rem;
+	padding-top: 1rem;
+	border-top: 1px dashed var(--p3r-blue);
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+.comment-box a {
+	color: var(--p3r-accent-yellow);
+	font-weight: bold;
+}
+
+.comment-box a:hover {
 	color: #fff;
 }
-
-td {
-	background-color: #1a1a1a;
-	color: #ccc;
-}
-
-/* ぱっと見の文字量が多い
-ページを分ける
-色を増やす*/
