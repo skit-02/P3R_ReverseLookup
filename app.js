@@ -181,15 +181,6 @@ function same_arcn_calc(
 	}
 	return test;
 }
-// ページロードアニメーション
-document.addEventListener('DOMContentLoaded', () => {
-	const elements = document.querySelectorAll('.navbar, h1, .search-section, .input-group, .btn-p3r');
-	elements.forEach((el, i) => {
-		el.style.opacity = '0';
-		el.style.transform = 'translateY(30px)';
-	});
-});
-
 // ファイルの読み込みと初期化
 Promise.all([
 	fetch(
