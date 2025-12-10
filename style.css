@@ -617,22 +617,7 @@ p {
   }
 }
 
-.navbar {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-h1 {
-  animation: fadeInUp 0.6s ease-out 0.1s backwards;
-}
-
-.search-section,
-.input-group {
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
-}
-
-.btn-p3r {
-  animation: fadeInUp 0.6s ease-out 0.3s backwards;
-}
+/* Page load animations removed to prevent flickering issues */
 
 .table tbody tr {
   animation: data-load 0.4s ease-out;
