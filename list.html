@@ -12,7 +12,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
@@ -40,8 +42,7 @@
         <div class="search-section">
             <p>調べたいペルソナ名を入力すると、そのペルソナを作成できる全ての2身合体の組み合わせを表示します。</p>
             <div class="input-group">
-                <input type="text" id="targetPrsnInput" list="nameList" class="form-control"
-                    placeholder="調べたいペルソナ名を入力">
+                <input type="text" id="targetPrsnInput" list="nameList" class="form-control" placeholder="調べたいペルソナ名を入力">
                 <datalist id="nameList"></datalist>
             </div>
             <button class="btn-p3r" id="showPatternsBtn">全通りを表示</button>
@@ -49,6 +50,7 @@
 
         <div id="resultArea">
             <h5>可能な合体結果一覧：</h5>
+            <p>CTR+F（macの場合は⌘+F）で検索できます</p>
             <div id="resultList"></div>
         </div>
 
